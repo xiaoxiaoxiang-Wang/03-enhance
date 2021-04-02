@@ -10,16 +10,15 @@ train_label_data_path = "./data/train_cleaned"
 test_data_path = "./data/test"
 pitch_height = 48
 pitch_width = 48
-stride = 10
+stride = 5
 scales = (1, 0.9, 0.8, 0.7)
-sigma = 25
 transform = {
     "origin": lambda img: img,
-    # "rot90_1":lambda img:np.rot90(img),
+    "rot90_1":lambda img:np.rot90(img),
     # "rot90_2":lambda img:np.rot90(img,2),
     # "rot90_3":lambda img:np.rot90(img,3),
     # "flip":lambda img:np.flipud(img),
-    # "flip_rot90_1":lambda img:np.flipud(np.rot90(img)),
+    "flip_rot90_1":lambda img:np.flipud(np.rot90(img)),
     # "flip_rot90_2": lambda img: np.flipud(np.rot90(img,2)),
     # "flip_rot90_3": lambda img: np.flipud(np.rot90(img,3)),
 }
