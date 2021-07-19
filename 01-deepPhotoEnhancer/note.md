@@ -2,8 +2,7 @@
 
 # paper
 
-Deep Photo Enhancer: Unpaired Learning for Image Enhancement From Photographs With GANs  
-https://openaccess.thecvf.com/content_cvpr_2018/papers/Chen_Deep_Photo_Enhancer_CVPR_2018_paper.pdf
+[Deep Photo Enhancer: Unpaired Learning for Image Enhancement From Photographs With GANs](https://openaccess.thecvf.com/content_cvpr_2018/papers/Chen_Deep_Photo_Enhancer_CVPR_2018_paper.pdf)<br/>
 
 # 图像质量评价
 
@@ -11,6 +10,10 @@ https://openaccess.thecvf.com/content_cvpr_2018/papers/Chen_Deep_Photo_Enhancer_
 NIMA: Neural Image Assessment
 
 # 空间位移不变
+
+# 数据集
+
+[blur database](https://cv.snu.ac.kr/dataset/GOPRO/REDS/train_blur.zip)<br/>
 
 # 解决的问题？
 
@@ -42,7 +45,8 @@ MS-SSIM loss：多尺度结构相似性，保留高频信息，容易导致亮�
 style loss：Gram matrix，计算两两特征的相关性  
 Total Variation Regularization：全变分，和Lipschitz约束的区别是，全变分是y内部的导数，Lipschitz是y对x的导数    
 感知损失：高阶特征的相似性，例如两张完全不同梵高的画，高阶特征可能基本一致 eg EnlightenGAN使用预训练的vgg特征向量平方和作为误差,原文出自Perceptual loss for Real time Style
-Transfer and Super-Resolution 循环一致性损失C： d-gan损失改进：
+Transfer and Super-Resolution 循环一致性损失C： d-gan损失改进： Content loss：Two classical choices for ”content” loss function are L1
+or MAE loss, L2 or MSE loss on raw pixels
 
 # 图像增强的场景
 
@@ -80,3 +84,13 @@ model定义张量，train_on_batch传入张量值
 # sigmoid和tanh
 
 sigmoid范围0~1 tanh范围-1~1
+
+# 关于 compile() 和 trainable 的重要说明
+
+在模型上调用 compile() 是为了“冻结”该模型的行为。这意味着在编译模型时，应当在该模型的整个生命周期中保留 trainable 特性值，直到再次调用 compile 为止。  
+
+# 关于tensorflow.python.framework.ops.Tensor和tensorflow.python.keras.engine.keras_tensor.KerasTensor
+
+keras自定义损失函数的输出是tensor，但是keras model的输出是keras tensor
+
+# gan训练退出条件

@@ -1,5 +1,10 @@
 from tensorflow import keras
 
+img_rows = 128
+img_cols = 128
+channels = 1
+img_shape = (img_rows, img_cols, channels)
+
 
 def G(channel=1):
     input = keras.layers.Input(shape=(None, None, channel), name='input')
@@ -32,12 +37,12 @@ def G(channel=1):
 
 
 def D(channel=1):
-    input = keras.layers.Input(shape=(256, 256, channel), name='input')
-    conv0 = conv_layer(input, 16, (3, 3), (2, 2))  # (batch_size,128,128,16)
-    conv1 = conv_layer(conv0, 32, (5, 5), (2, 2))  # (batch_size,64,64,32)
-    conv2 = conv_layer(conv1, 64, (5, 5), (2, 2))  # (batch_size,32,32,64)
-    conv3 = conv_layer(conv2, 128, (5, 5), (2, 2))  # (batch_size,16,16,128)
-    out = conv_layer(conv3, 1, (16, 16), (1, 1), 'valid')  # (batch_size,128,128,16)
+    input = keras.layers.Input(shape=img_shape, name='input')
+    conv0 = conv_layer(input, 16, (3, 3), (2, 2))  # (batch_size,64,64,16)
+    conv1 = conv_layer(conv0, 32, (5, 5), (2, 2))  # (batch_size,32,32,32)
+    conv2 = conv_layer(conv1, 64, (5, 5), (2, 2))  # (batch_size,16,16,64)
+    conv3 = conv_layer(conv2, 128, (5, 5), (2, 2))  # (batch_size,8,8,128)
+    out = conv_layer(conv3, 1, (8, 8), (1, 1), 'valid')  # (batch_size,1,1,1)
     model = keras.models.Model(inputs=input, outputs=out)
     return model
 
@@ -57,7 +62,7 @@ def conv_layer(input, filters, kernel_size=(3, 3), strides=(1, 1), padding='same
                               kernel_initializer=keras.initializers.VarianceScaling(scale=1.0, mode='fan_in',
                                                                                     distribution='normal'),
                               bias_initializer='zeros',
-                              padding=padding, use_bias=False)(
+                              padding=padding, use_bias=True)(
         input)
     if ac:
         out = keras.layers.Activation(activation='relu')(out)
